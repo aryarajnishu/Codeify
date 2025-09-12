@@ -1,6 +1,5 @@
 import React from 'react'
 import { BrainCircuit, Sun } from 'lucide-react';
-import { Editor } from '@monaco-editor/react';
 
 // This function returns a Navbar component
 const Navbar = () => {
