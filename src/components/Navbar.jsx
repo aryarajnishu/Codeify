@@ -3,6 +3,11 @@ import { BrainCircuit, Sun, Moon } from 'lucide-react';
 
 // This function returns a Navbar component
 const Navbar = ({ onToggleTheme, theme }) => {
+  // Handler to reload the page (reset to initial state)
+  const handleLogoClick = () => {
+    window.location.reload();
+  };
+
   // Return a JSX element
   return (
     <>
@@ -10,7 +15,11 @@ const Navbar = ({ onToggleTheme, theme }) => {
         className={`nav flex items-center justify-between h-[45px] ${theme === "dark" ? "bg-zinc-900" : "bg-gray-100"} rounded-2xl`}
         style={{ padding: "0px 150px", marginLeft: "15px", marginRight: "15px" , marginTop: "8px" }}
       >
-        <div className="logo flex items-center gap-[10px]">
+        <div
+          className="logo flex items-center gap-[10px] cursor-pointer select-none"
+          onClick={handleLogoClick}
+          title="Go to initial state"
+        >
           <BrainCircuit size={30} color='#9333ea'/>
           <span className={`text-2xl font-bold ml-2 ${theme === "dark" ? "text-white" : "text-black"}`}>Codeify</span>
         </div>

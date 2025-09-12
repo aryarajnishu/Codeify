@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import Editor from "@monaco-editor/react";
@@ -7,6 +7,127 @@ import { GoogleGenAI } from "@google/genai";
 import Markdown from "react-markdown";
 import ReactMarkdown from "react-markdown";
 import RingLoader from "react-spinners/RingLoader";
+
+const boilerplates = {
+  cpp: `
+#include <iostream>
+int main() {
+    std::cout << "Hello, C++!" << std::endl;
+    return 0;
+}
+`,
+
+  javascript: `
+function main() {
+  console.log("Hello, JavaScript!");
+}
+main();
+`,
+
+  python: `
+def main():
+    print("Hello, Python!")
+
+if __name__ == "__main__":
+    main()
+`,
+
+  java: `
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello, Java!");
+    }
+}
+`,
+
+  csharp: `
+using System;
+class Program {
+    static void Main() {
+        Console.WriteLine("Hello, C#!");
+    }
+}
+`,
+
+  php: `
+<?php
+echo "Hello, PHP!";
+?>
+`,
+
+  ruby: `
+puts "Hello, Ruby!"
+`,
+
+  go: `
+package main
+import "fmt"
+func main() {
+    fmt.Println("Hello, Go!")
+}
+`,
+
+  swift: `
+import Foundation
+print("Hello, Swift!")
+`,
+
+  kotlin: `
+fun main() {
+    println("Hello, Kotlin!")
+}
+`,
+
+  typescript: `
+function main(): void {
+  console.log("Hello, TypeScript!");
+}
+main();
+`,
+
+  rust: `
+fn main() {
+    println!("Hello, Rust!");
+}
+`,
+
+  dart: `
+void main() {
+  print('Hello, Dart!');
+}
+`,
+
+  scala: `
+object Main extends App {
+  println("Hello, Scala!")
+}
+`,
+
+  perl: `
+print "Hello, Perl!\\n";
+`,
+
+  haskell: `
+main :: IO ()
+main = putStrLn "Hello, Haskell!"
+`,
+
+  elixir: `
+IO.puts "Hello, Elixir!"
+`,
+
+  r: `
+cat("Hello, R!\\n")
+`,
+
+  matlab: `
+disp('Hello, MATLAB!');
+`,
+
+  bash: `
+echo "Hello, Bash!"
+`,
+};
 
 const App = () => {
   const options = [
@@ -81,128 +202,6 @@ const App = () => {
     }),
   };
 
-  const boilerplates = {
-    javascript: `
-function main() {
-  console.log("Hello, JavaScript!");
-}
-main();
-`,
-
-    python: `
-def main():
-    print("Hello, Python!")
-
-if __name__ == "__main__":
-    main()
-`,
-
-    java: `
-public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello, Java!");
-    }
-}
-`,
-
-    csharp: `
-using System;
-class Program {
-    static void Main() {
-        Console.WriteLine("Hello, C#!");
-    }
-}
-`,
-
-    cpp: `
-#include <bits/stdc++.h>
-using namespace std;
-int main() {
-    cout << "Hello, C++!" << endl;
-    return 0;
-}
-`,
-
-    php: `
-<?php
-echo "Hello, PHP!";
-?>
-`,
-
-    ruby: `
-puts "Hello, Ruby!"
-`,
-
-    go: `
-package main
-import "fmt"
-func main() {
-    fmt.Println("Hello, Go!")
-}
-`,
-
-    swift: `
-import Foundation
-print("Hello, Swift!")
-`,
-
-    kotlin: `
-fun main() {
-    println("Hello, Kotlin!")
-}
-`,
-
-    typescript: `
-function main(): void {
-  console.log("Hello, TypeScript!");
-}
-main();
-`,
-
-    rust: `
-fn main() {
-    println!("Hello, Rust!");
-}
-`,
-
-    dart: `
-void main() {
-  print('Hello, Dart!');
-}
-`,
-
-    scala: `
-object Main extends App {
-  println("Hello, Scala!")
-}
-`,
-
-    perl: `
-print "Hello, Perl!\\n";
-`,
-
-    haskell: `
-main :: IO ()
-main = putStrLn "Hello, Haskell!"
-`,
-
-    elixir: `
-IO.puts "Hello, Elixir!"
-`,
-
-    r: `
-cat("Hello, R!\\n")
-`,
-
-    matlab: `
-disp('Hello, MATLAB!');
-`,
-
-    bash: `
-echo "Hello, Bash!"
-`,
-  };
-
   async function fixCode() {
     setLoading(true);
     setResponse("");
@@ -250,82 +249,131 @@ ${code}`,
     document.body.className = theme === "dark" ? "light" : "dark";
   };
 
+  useEffect(() => {
+    if (response) {
+      console.log("Review Response:", response);
+    }
+  }, [response]);
+
+  // Set default boilerplate for C++ on first load
+  useEffect(() => {
+    setCode(boilerplates["cpp"]);
+  }, []);
+
   return (
     <>
       <Navbar onToggleTheme={toggleTheme} theme={theme} />
       <div
-        className={`main flex gap-4 p-4 ${theme === "dark" ? "bg-zinc-950" : "bg-gray-100"}`}
+        className={`main flex gap-4 p-4 ${
+          theme === "dark" ? "bg-zinc-950" : "bg-gray-100"
+        }`}
         style={{ height: "calc(100vh - 90px)" }}
       >
         {/* LEFT SIDE - Code Editor */}
         <div
-  className={`left flex flex-col w-1/2 h-full rounded-2xl shadow-2xl border-2
-    ${theme === "dark"
-      ? "bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-950 border-zinc-800"
-      : "bg-gradient-to-br from-white via-gray-100 to-gray-200 border-gray-200"
+          className={`left flex flex-col w-1/2 h-full rounded-2xl shadow-2xl border-2
+    ${
+      theme === "dark"
+        ? "bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-950 border-zinc-800"
+        : "bg-gradient-to-br from-white via-gray-100 to-gray-200 border-gray-200"
     }`}
-  style={{ marginTop: "15px", marginLeft: "15px" }}
->
-  <div
-    className={`tabs flex justify-center items-center gap-8 p-6 border-b-2 rounded-t-2xl shadow-md
-      ${theme === "dark"
-        ? "border-zinc-800 bg-gradient-to-r from-purple-900 via-zinc-950 to-indigo-900"
-        : "border-gray-200 bg-gradient-to-r from-purple-100 via-gray-50 to-indigo-100"
+          style={{ marginTop: "15px", marginLeft: "15px" }}
+        >
+          <div
+            className={`tabs flex justify-center items-center gap-8 p-6 border-b-2 rounded-t-2xl shadow-md
+      ${
+        theme === "dark"
+          ? "border-zinc-800 bg-gradient-to-r from-purple-900 via-zinc-950 to-indigo-900"
+          : "border-gray-200 bg-gradient-to-r from-purple-100 via-gray-50 to-indigo-100"
       }`}
-  >
-    <Select
-      value={selectedOption}
-      onChange={handleLanguageChange}
-      options={options}
-      styles={customStyles}
-      className="min-w-[200px] text-lg"
-    />
+          >
+            <Select
+              value={selectedOption}
+              onChange={handleLanguageChange}
+              options={options}
+              styles={customStyles}
+              className="min-w-[200px] text-lg"
+            />
 
-    <button
-      onClick={() => (code ? fixCode() : alert("Please enter code first"))}
-      className="h-9 min-w-[140px] text-lg font-semibold bg-gradient-to-r from-indigo-500 to-blue-600 text-white rounded-lg shadow transition-all hover:from-indigo-600 hover:to-blue-700"
-    >
-      Fix Code
-    </button>
+            <button
+              onClick={() =>
+                code ? fixCode() : alert("Please enter code first")
+              }
+              className="h-9 min-w-[140px] text-lg font-semibold bg-gradient-to-r from-indigo-500 to-blue-600 text-white rounded-lg shadow transition-all hover:from-indigo-600 hover:to-blue-700"
+            >
+              Fix Code
+            </button>
 
-    <button
-      onClick={() => (code ? reviewCode() : alert("Please enter code first"))}
-      className="h-9 min-w-[140px] text-lg font-semibold bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg shadow transition-all hover:from-green-600 hover:to-emerald-700"
-    >
-      Review
-    </button>
-  </div>
+            <button
+              onClick={() => {
+                if (code) {
+                  reviewCode();
+                  setTimeout(() => {
+                    if (response) {
+                      console.log("Review Response:", response);
+                    }
+                  }, 1000); // Wait for response to update (adjust if needed)
+                } else {
+                  alert("Please enter code first");
+                }
+              }}
+              className="h-10 min-w-[140px] text-base font-semibold bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg shadow transition-all hover:from-green-600 hover:to-emerald-700 flex items-center justify-center"
+              style={{ height: "40px" }}
+            >
+              Review
+            </button>
+          </div>
 
-  <div className="flex-1 overflow-hidden rounded-b-2xl">
-    <Editor
-      height="100%"
-      theme={theme === "dark" ? "vs-dark" : "light"}
-      language={selectedOption.value}
-      value={code}
-      onChange={(e) => setCode(e)}
-      options={{
-        fontSize: 16,
-        fontFamily: "Fira Mono, Menlo, Monaco, Consolas, monospace",
-        minimap: { enabled: false },
-        scrollBeyondLastLine: false,
-        smoothScrolling: true,
-      }}
-    />
-  </div>
-</div>
+          <div className="flex-1 overflow-hidden rounded-b-2xl">
+            <Editor
+              height="100%"
+              theme={theme === "dark" ? "vs-dark" : "light"}
+              language={selectedOption.value}
+              value={code}
+              onChange={(e) => setCode(e)}
+              options={{
+                fontSize: 16,
+                fontFamily: "Fira Mono, Menlo, Monaco, Consolas, monospace",
+                minimap: { enabled: false },
+                scrollBeyondLastLine: false,
+                smoothScrolling: true,
+              }}
+            />
+          </div>
+        </div>
 
         {/* RIGHT SIDE - Response */}
-        <div className={`right w-1/2 h-full flex flex-col rounded-2xl shadow-2xl border-2 ${theme === "dark" ? "bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-950 border-zinc-800" : "bg-gradient-to-br from-white via-gray-100 to-gray-200 border-gray-200"}`} style={{ marginTop: "15px", marginRight: "15px" }}>
-          <div className={`topTab flex justify-center items-center px-6 h-[45px] rounded-t-2xl border-b-2 ${theme === "dark" ? "border-zinc-700 bg-zinc-950" : "border-gray-300 bg-gray-50"}`}>
-            <p className={`font-extrabold text-xl tracking-wide ${theme === "dark" ? "text-white-900" : "text-white-900"}`}>Response</p>
-          </div>
+        <div
+          className={`right w-1/2 h-full flex flex-col rounded-2xl shadow-2xl border-2  ${
+            theme === "dark"
+              ? "bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-950 border-zinc-800"
+              : "bg-gradient-to-br from-white via-gray-100 to-gray-200 border-gray-200"
+          }`}
+          style={{ marginTop: "15px", marginRight: "15px" }}
+        >
           <div
-            className={`flex-1 flex items-center justify-center p-8 transition-all duration-300
-      ${theme === "dark"
-        ? "text-white bg-opacity-80 backdrop-blur-lg"
-        : "text-gray-800 bg-opacity-80 backdrop-blur-lg"
-      }
-      rounded-b-2xl`}
+            className={`topTab flex justify-center items-center px-6 h-[45px] rounded-t-2xl border-b-2  ${
+              theme === "dark"
+                ? "border-zinc-700 bg-zinc-950"
+                : "border-gray-300 bg-gray-50"
+            }`}
+          >
+            <p
+              className={`font-extrabold text-xl tracking-wide ${
+                theme === "dark" ? "text-white-900" : "text-white-900"
+              }`}
+            >
+              Response
+            </p>
+          </div>
+
+          <div
+            className={`flex-1 flex items-center justify-center transition-all duration-300
+    ${theme === "dark"
+      ? "text-white bg-opacity-80 backdrop-blur-lg"
+      : "text-gray-800 bg-opacity-80 backdrop-blur-lg"
+    }
+    rounded-b-2xl`}
             style={{
               minHeight: "200px",
               fontSize: "1.1rem",
@@ -339,31 +387,29 @@ ${code}`,
               wordBreak: "break-word",
               overflowY: "auto",
               maxHeight: "calc(100vh - 200px)",
+              padding: "0 0.5rem 0.5rem 0.5rem",
             }}
           >
             {loading ? (
               <div className="flex justify-center items-center h-full">
                 <RingLoader color="#9333ea" />
               </div>
-            ) : (
-              <div className={`prose ${theme === "dark" ? "prose-invert" : ""} w-full max-w-2xl mx-auto text-left bg-white/10 rounded-xl p-6 shadow-lg`}>
-                <ReactMarkdown
-                  components={{
-                    code({node, inline, className, children, ...props}) {
-                      return !inline ? (
-                        <pre className="bg-zinc-900 text-green-400 rounded-lg p-4 overflow-x-auto my-4">
-                          <code>{children}</code>
-                        </pre>
-                      ) : (
-                        <code className="bg-zinc-800 text-purple-400 rounded px-1">{children}</code>
-                      );
-                    }
-                  }}
-                >
+            ) : response && response.trim() !== "" ? (
+              <div
+                className={`prose ${theme === "dark" ? "prose-invert" : ""} w-full max-w-2xl mx-auto text-left bg-white/10 rounded-xl shadow-lg`}
+                style={{
+                  padding: "2.5rem 2rem 2rem 2rem",
+                  boxSizing: "border-box",
+                  border: theme === "dark" ? "1.5px solid #444" : "1.5px solid #d1d5db",
+                  minHeight: "200px",
+                  marginTop: "50px", // Add margin from top
+                }}
+              >
+                <ReactMarkdown>
                   {response}
                 </ReactMarkdown>
               </div>
-            )}
+            ) : null}
           </div>
         </div>
       </div>
