@@ -5,6 +5,7 @@ import Editor from "@monaco-editor/react";
 import Select from "react-select";
 import { GoogleGenAI } from "@google/genai";
 import Markdown from "react-markdown";
+import ReactMarkdown from "react-markdown";
 import RingLoader from "react-spinners/RingLoader";
 
 const App = () => {
@@ -257,56 +258,111 @@ ${code}`,
         style={{ height: "calc(100vh - 90px)" }}
       >
         {/* LEFT SIDE - Code Editor */}
-        <div className={`left flex flex-col w-1/2 h-full ${theme === "dark" ? "bg-zinc-900" : "bg-white"} rounded-1xl shadow-lg overflow-hidden`}>
-          <div className={`tabs flex justify-center items-center gap-8 p-4 border-b ${theme === "dark" ? "border-zinc-800 bg-zinc-950" : "border-gray-200 bg-gray-50"} rounded-t-2xl`}>
-            <Select
-              value={selectedOption}
-              onChange={handleLanguageChange}
-              options={options}
-              styles={customStyles}
-              className="min-w-[200px]"
-            />
+        <div
+  className={`left flex flex-col w-1/2 h-full rounded-2xl shadow-2xl border-2
+    ${theme === "dark"
+      ? "bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-950 border-zinc-800"
+      : "bg-gradient-to-br from-white via-gray-100 to-gray-200 border-gray-200"
+    }`}
+  style={{ marginTop: "15px", marginLeft: "15px" }}
+>
+  <div
+    className={`tabs flex justify-center items-center gap-8 p-6 border-b-2 rounded-t-2xl shadow-md
+      ${theme === "dark"
+        ? "border-zinc-800 bg-gradient-to-r from-purple-900 via-zinc-950 to-indigo-900"
+        : "border-gray-200 bg-gradient-to-r from-purple-100 via-gray-50 to-indigo-100"
+      }`}
+  >
+    <Select
+      value={selectedOption}
+      onChange={handleLanguageChange}
+      options={options}
+      styles={customStyles}
+      className="min-w-[200px] text-lg"
+    />
 
-            <button
-              onClick={() =>
-                code ? fixCode() : alert("Please enter code first")
-              }
-              className="btnNormal h-9 min-w-[120px] bg-gradient-to-r from-indigo-500 to-blue-600 text-white rounded-md transition-all hover:from-indigo-600 hover:to-blue-700"
-            >
-              Fix Code
-            </button>
+    <button
+      onClick={() => (code ? fixCode() : alert("Please enter code first"))}
+      className="h-10 min-w-[140px] text-lg font-semibold bg-gradient-to-r from-indigo-500 to-blue-600 text-white rounded-lg shadow transition-all hover:from-indigo-600 hover:to-blue-700"
+    >
+      Fix Code
+    </button>
 
-            <button
-              onClick={() =>
-                code ? reviewCode() : alert("Please enter code first")
-              }
-              className="btnNormal h-9 min-w-[120px] bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-md transition-all hover:from-green-600 hover:to-emerald-700"
-            >
-              Review
-            </button>
-          </div>
+    <button
+      onClick={() => (code ? reviewCode() : alert("Please enter code first"))}
+      className="h-10 min-w-[140px] text-lg font-semibold bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg shadow transition-all hover:from-green-600 hover:to-emerald-700"
+    >
+      Review
+    </button>
+  </div>
 
-          <Editor
-            height="100%"
-            theme={theme === "dark" ? "vs-dark" : "light"}
-            language={selectedOption.value}
-            value={code}
-            onChange={(e) => setCode(e)}
-          />
-        </div>
+  <div className="flex-1 overflow-hidden rounded-b-2xl">
+    <Editor
+      height="100%"
+      theme={theme === "dark" ? "vs-dark" : "light"}
+      language={selectedOption.value}
+      value={code}
+      onChange={(e) => setCode(e)}
+      options={{
+        fontSize: 16,
+        fontFamily: "Fira Mono, Menlo, Monaco, Consolas, monospace",
+        minimap: { enabled: false },
+        scrollBeyondLastLine: false,
+        smoothScrolling: true,
+      }}
+    />
+  </div>
+</div>
 
         {/* RIGHT SIDE - Response */}
-        <div className={`right w-1/2 h-full ${theme === "dark" ? "bg-zinc-900" : "bg-white"} rounded-2xl shadow-lg flex flex-col`}>
-          <div className={`topTab border-b ${theme === "dark" ? "border-zinc-800 bg-zinc-950" : "border-gray-200 bg-gray-50"} flex items-center px-4 h-[60px] rounded-t-2xl`}>
-            <p className={`font-bold text-lg ${theme === "dark" ? "text-white" : "text-black"}`}>Response</p>
+        <div className={`right w-1/2 h-full flex flex-col rounded-2xl shadow-2xl border-2 ${theme === "dark" ? "bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-950 border-zinc-800" : "bg-gradient-to-br from-white via-gray-100 to-gray-200 border-gray-200"}`} style={{ marginTop: "15px", marginRight: "15px" }}>
+          <div className={`topTab flex justify-center items-center px-6 h-[45px] rounded-t-2xl border-b-2 ${theme === "dark" ? "border-zinc-700 bg-zinc-950" : "border-gray-300 bg-gray-50"}`}>
+            <p className={`font-extrabold text-xl tracking-wide ${theme === "dark" ? "text-white" : "text-gray-999"}`}>Response</p>
           </div>
-          <div className={`flex-1 overflow-y-auto p-5 ${theme === "dark" ? "text-white" : "text-black"} prose prose-invert`}>
+          <div
+            className={`flex-1 flex items-center justify-center p-8 transition-all duration-300
+      ${theme === "dark"
+        ? "text-white bg-opacity-80 backdrop-blur-lg"
+        : "text-gray-800 bg-opacity-80 backdrop-blur-lg"
+      }
+      rounded-b-2xl`}
+            style={{
+              minHeight: "200px",
+              fontSize: "1.1rem",
+              fontFamily: "Fira Mono, Menlo, Monaco, Consolas, monospace",
+              boxShadow: theme === "dark"
+                ? "0 8px 32px 0 rgba(60, 60, 80, 0.37)"
+                : "0 8px 32px 0 rgba(180, 180, 200, 0.17)",
+              borderRadius: "0 0 16px 16px",
+              borderTop: "none",
+              letterSpacing: "0.01em",
+              wordBreak: "break-word",
+              overflowY: "auto",
+              maxHeight: "calc(100vh - 200px)",
+            }}
+          >
             {loading ? (
               <div className="flex justify-center items-center h-full">
                 <RingLoader color="#9333ea" />
               </div>
             ) : (
-              <Markdown>{response}</Markdown>
+              <div className={`prose ${theme === "dark" ? "prose-invert" : ""} w-full max-w-2xl mx-auto text-left bg-white/10 rounded-xl p-6 shadow-lg`}>
+                <ReactMarkdown
+                  components={{
+                    code({node, inline, className, children, ...props}) {
+                      return !inline ? (
+                        <pre className="bg-zinc-900 text-green-400 rounded-lg p-4 overflow-x-auto my-4">
+                          <code>{children}</code>
+                        </pre>
+                      ) : (
+                        <code className="bg-zinc-800 text-purple-400 rounded px-1">{children}</code>
+                      );
+                    }
+                  }}
+                >
+                  {response}
+                </ReactMarkdown>
+              </div>
             )}
           </div>
         </div>
