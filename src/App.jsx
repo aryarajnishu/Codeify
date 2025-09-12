@@ -283,14 +283,14 @@ ${code}`,
 
     <button
       onClick={() => (code ? fixCode() : alert("Please enter code first"))}
-      className="h-10 min-w-[140px] text-lg font-semibold bg-gradient-to-r from-indigo-500 to-blue-600 text-white rounded-lg shadow transition-all hover:from-indigo-600 hover:to-blue-700"
+      className="h-9 min-w-[140px] text-lg font-semibold bg-gradient-to-r from-indigo-500 to-blue-600 text-white rounded-lg shadow transition-all hover:from-indigo-600 hover:to-blue-700"
     >
       Fix Code
     </button>
 
     <button
       onClick={() => (code ? reviewCode() : alert("Please enter code first"))}
-      className="h-10 min-w-[140px] text-lg font-semibold bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg shadow transition-all hover:from-green-600 hover:to-emerald-700"
+      className="h-9 min-w-[140px] text-lg font-semibold bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg shadow transition-all hover:from-green-600 hover:to-emerald-700"
     >
       Review
     </button>
@@ -317,7 +317,7 @@ ${code}`,
         {/* RIGHT SIDE - Response */}
         <div className={`right w-1/2 h-full flex flex-col rounded-2xl shadow-2xl border-2 ${theme === "dark" ? "bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-950 border-zinc-800" : "bg-gradient-to-br from-white via-gray-100 to-gray-200 border-gray-200"}`} style={{ marginTop: "15px", marginRight: "15px" }}>
           <div className={`topTab flex justify-center items-center px-6 h-[45px] rounded-t-2xl border-b-2 ${theme === "dark" ? "border-zinc-700 bg-zinc-950" : "border-gray-300 bg-gray-50"}`}>
-            <p className={`font-extrabold text-xl tracking-wide ${theme === "dark" ? "text-white" : "text-gray-999"}`}>Response</p>
+            <p className={`font-extrabold text-xl tracking-wide ${theme === "dark" ? "text-white-900" : "text-white-900"}`}>Response</p>
           </div>
           <div
             className={`flex-1 flex items-center justify-center p-8 transition-all duration-300

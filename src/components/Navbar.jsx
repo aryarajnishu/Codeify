@@ -7,7 +7,7 @@ const Navbar = ({ onToggleTheme, theme }) => {
   return (
     <>
       <div
-        className={`nav flex items-center justify-between h-[50px] ${theme === "dark" ? "bg-zinc-900" : "bg-gray-100"} rounded-2xl`}
+        className={`nav flex items-center justify-between h-[45px] ${theme === "dark" ? "bg-zinc-900" : "bg-gray-100"} rounded-2xl`}
         style={{ padding: "0px 150px", marginLeft: "15px", marginRight: "15px" , marginTop: "8px" }}
       >
         <div className="logo flex items-center gap-[10px]">
