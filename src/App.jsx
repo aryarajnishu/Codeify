@@ -9,24 +9,28 @@ import ReactMarkdown from "react-markdown";
 import RingLoader from "react-spinners/RingLoader";
 
 const boilerplates = {
-  cpp: `
-#include <iostream>
+  cpp: `// Online C++ compiler to run C++ program online
+#include <bits/stdc++.h>
+using namespace std;
+
 int main() {
-    std::cout << "Hello, C++!" << std::endl;
+    // Write C++ code here
+    cout << "AI Code Review Platform" << endl;
+
     return 0;
 }
 `,
 
   javascript: `
 function main() {
-  console.log("Hello, JavaScript!");
+  console.log("AI Code Review Platform");
 }
 main();
 `,
 
   python: `
 def main():
-    print("Hello, Python!")
+    print("AI Code Review Platform")
 
 if __name__ == "__main__":
     main()
@@ -35,7 +39,7 @@ if __name__ == "__main__":
   java: `
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello, Java!");
+        System.out.println("AI Code Review Platform");
     }
 }
 `,
@@ -44,88 +48,88 @@ public class Main {
 using System;
 class Program {
     static void Main() {
-        Console.WriteLine("Hello, C#!");
+        Console.WriteLine("AI Code Review Platform");
     }
 }
 `,
 
   php: `
 <?php
-echo "Hello, PHP!";
+echo "AI Code Review Platform";
 ?>
 `,
 
   ruby: `
-puts "Hello, Ruby!"
+puts "AI Code Review Platform"
 `,
 
   go: `
 package main
 import "fmt"
 func main() {
-    fmt.Println("Hello, Go!")
+    fmt.Println("AI Code Review Platform")
 }
 `,
 
   swift: `
 import Foundation
-print("Hello, Swift!")
+print("AI Code Review Platform")
 `,
 
   kotlin: `
 fun main() {
-    println("Hello, Kotlin!")
+    println("AI Code Review Platform")
 }
 `,
 
   typescript: `
 function main(): void {
-  console.log("Hello, TypeScript!");
+  console.log("AI Code Review Platform");
 }
 main();
 `,
 
   rust: `
 fn main() {
-    println!("Hello, Rust!");
+    println!("AI Code Review Platform");
 }
 `,
 
   dart: `
 void main() {
-  print('Hello, Dart!');
+  print('AI Code Review Platform');
 }
 `,
 
   scala: `
 object Main extends App {
-  println("Hello, Scala!")
+  println("AI Code Review Platform")
 }
 `,
 
   perl: `
-print "Hello, Perl!\\n";
+print "AI Code Review Platform\\n";
 `,
 
   haskell: `
 main :: IO ()
-main = putStrLn "Hello, Haskell!"
+main = putStrLn "AI Code Review Platform"
 `,
 
   elixir: `
-IO.puts "Hello, Elixir!"
+IO.puts "AI Code Review Platform"
 `,
 
   r: `
-cat("Hello, R!\\n")
+cat("AI Code Review Platform\\n")
 `,
 
   matlab: `
-disp('Hello, MATLAB!');
+disp('AI Code Review Platform');
 `,
 
   bash: `
-echo "Hello, Bash!"
+echo "AI Code Review Platform"
 `,
 };
 
@@ -207,16 +211,36 @@ const App = () => {
     setResponse("");
     const response = await ai.models.generateContent({
       model: "gemini-2.0-flash",
-      contents: `You are an expert-level software developer.
+      contents: `
+You are an expert-level software developer.
 Fix and improve the following ${selectedOption.value} code.
-Only return the corrected code as plain text.
-Do NOT use any markdown code blocks or backticks.
-If you add comments, use only short, one-word comments (e.g., //init, //loop, //print).
-Do not add explanations or extra comments.
+
+Return your answer in this markdown format:
+
+## Summary of Changes
+(Briefly explain what was changed and why.)
+
+## Detailed Changes
+- For each change, write a clear sentence describing what was changed, where, and why. For example: "Changed variable name 'x' to 'count' on line 4 for clarity." Do not use a table.
+
+## Fixed Code
+\`\`\`${selectedOption.value}
+(paste the corrected code here)
+\`\`\`
+
+Do not add any extra explanation outside this format.
+
 Code:
-${code}`,
+${code}
+    `,
     });
-    setCode(response.text);
+
+    // Extract the fixed code from the markdown response
+    const match = response.text.match(/```[\s\S]*?\n([\s\S]*?)```/);
+    if (match && match[1]) {
+      setCode(match[1].trim());
+    }
+    setResponse(response.text);
     setLoading(false);
   }
 
@@ -373,9 +397,10 @@ ${code}`,
               minHeight: "200px",
               fontSize: "1.1rem",
               fontFamily: "Fira Mono, Menlo, Monaco, Consolas, monospace",
-              boxShadow: theme === "dark"
-                ? "0 8px 32px 0 rgba(60, 60, 80, 0.37)"
-                : "0 8px 32px 0 rgba(180, 180, 200, 0.17)",
+              boxShadow:
+                theme === "dark"
+                  ? "0 8px 32px 0 rgba(60, 60, 80, 0.37)"
+                  : "0 8px 32px 0 rgba(180, 180, 200, 0.17)",
               borderRadius: "0 0 16px 16px",
               borderTop: "none",
               letterSpacing: "0.01em",
@@ -389,18 +414,21 @@ ${code}`,
               </div>
             ) : response && response.trim() !== "" ? (
               <div
-                className={`prose ${theme === "dark" ? "prose-invert" : ""} w-full text-left bg-white/10 rounded-xl shadow-lg`}
+                className={`prose ${
+                  theme === "dark" ? "prose-invert" : ""
+                } w-full text-left bg-white/10 rounded-xl shadow-lg`}
                 style={{
                   padding: "2rem",
                   boxSizing: "border-box",
-                  border: theme === "dark" ? "1.5px solid #444" : "1.5px solid #d1d5db",
+                  border:
+                    theme === "dark"
+                      ? "1.5px solid #444"
+                      : "1.5px solid #d1d5db",
                   minHeight: "200px",
                   marginTop: "16px",
                 }}
               >
-                <ReactMarkdown>
-                  {response}
-                </ReactMarkdown>
+                <ReactMarkdown>{response}</ReactMarkdown>
               </div>
             ) : null}
           </div>
