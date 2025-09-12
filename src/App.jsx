@@ -368,12 +368,7 @@ ${code}`,
           </div>
 
           <div
-            className={`flex-1 flex items-center justify-center transition-all duration-300
-    ${theme === "dark"
-      ? "text-white bg-opacity-80 backdrop-blur-lg"
-      : "text-gray-800 bg-opacity-80 backdrop-blur-lg"
-    }
-    rounded-b-2xl`}
+            className="flex-1 overflow-y-auto flex items-start justify-center transition-all duration-300 rounded-b-2xl"
             style={{
               minHeight: "200px",
               fontSize: "1.1rem",
@@ -385,24 +380,22 @@ ${code}`,
               borderTop: "none",
               letterSpacing: "0.01em",
               wordBreak: "break-word",
-              overflowY: "auto",
-              maxHeight: "calc(100vh - 200px)",
-              padding: "0 0.5rem 0.5rem 0.5rem",
+              padding: "0.5rem 0.5rem 0.5rem 0.5rem",
             }}
           >
             {loading ? (
-              <div className="flex justify-center items-center h-full">
+              <div className="flex justify-center items-center h-full w-full">
                 <RingLoader color="#9333ea" />
               </div>
             ) : response && response.trim() !== "" ? (
               <div
-                className={`prose ${theme === "dark" ? "prose-invert" : ""} w-full max-w-2xl mx-auto text-left bg-white/10 rounded-xl shadow-lg`}
+                className={`prose ${theme === "dark" ? "prose-invert" : ""} w-full text-left bg-white/10 rounded-xl shadow-lg`}
                 style={{
-                  padding: "2.5rem 2rem 2rem 2rem",
+                  padding: "2rem",
                   boxSizing: "border-box",
                   border: theme === "dark" ? "1.5px solid #444" : "1.5px solid #d1d5db",
                   minHeight: "200px",
-                  marginTop: "50px", // Add margin from top
+                  marginTop: "16px",
                 }}
               >
                 <ReactMarkdown>
