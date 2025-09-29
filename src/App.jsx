@@ -10,127 +10,127 @@ import RingLoader from "react-spinners/RingLoader";
 
 const boilerplates = {
   cpp: `// Online C++ compiler to run C++ program online
-#include <bits/stdc++.h>
-using namespace std;
+      #include <bits/stdc++.h>
+      using namespace std;
 
-int main() {
-    // Write C++ code here
-    cout << "AI Code Review Platform" << endl;
+      int main() {
+          // Write C++ code here
+          cout << "AI Code Review Platform" << endl;
 
-    return 0;
-}
-`,
+          return 0;
+      }
+      `,
 
   javascript: `
-function main() {
-  console.log("AI Code Review Platform");
-}
-main();
+      function main() {
+        console.log("AI Code Review Platform");
+      }
+      main();
 `,
 
   python: `
-def main():
-    print("AI Code Review Platform")
+      def main():
+          print("AI Code Review Platform")
 
-if __name__ == "__main__":
-    main()
+      if __name__ == "__main__":
+          main()
 `,
 
   java: `
-public class Main {
-    public static void main(String[] args) {
-        System.out.println("AI Code Review Platform");
-    }
-}
+      public class Main {
+          public static void main(String[] args) {
+              System.out.println("AI Code Review Platform");
+          }
+      }
 `,
 
   csharp: `
-using System;
-class Program {
-    static void Main() {
-        Console.WriteLine("AI Code Review Platform");
-    }
-}
+      using System;
+      class Program {
+          static void Main() {
+              Console.WriteLine("AI Code Review Platform");
+          }
+      }
 `,
 
   php: `
-<?php
-echo "AI Code Review Platform";
-?>
+      <?php
+      echo "AI Code Review Platform";
+      ?>
 `,
 
   ruby: `
-puts "AI Code Review Platform"
-`,
+      puts "AI Code Review Platform"
+      `,
 
   go: `
-package main
-import "fmt"
-func main() {
-    fmt.Println("AI Code Review Platform")
-}
-`,
+      package main
+      import "fmt"
+      func main() {
+          fmt.Println("AI Code Review Platform")
+      }
+      `,
 
   swift: `
-import Foundation
-print("AI Code Review Platform")
-`,
+      import Foundation
+      print("AI Code Review Platform")
+      `,
 
   kotlin: `
-fun main() {
-    println("AI Code Review Platform")
-}
-`,
+      fun main() {
+          println("AI Code Review Platform")
+      }
+      `,
 
   typescript: `
-function main(): void {
-  console.log("AI Code Review Platform");
-}
-main();
-`,
+      function main(): void {
+        console.log("AI Code Review Platform");
+      }
+      main();
+      `,
 
   rust: `
-fn main() {
-    println!("AI Code Review Platform");
-}
-`,
+      fn main() {
+        println!("AI Code Review Platform");
+      }
+      `,
 
   dart: `
-void main() {
-  print('AI Code Review Platform');
-}
-`,
+      void main() {
+        print('AI Code Review Platform');
+      }
+      `,
 
   scala: `
-object Main extends App {
-  println("AI Code Review Platform")
-}
-`,
+      object Main extends App {
+        println("AI Code Review Platform")
+      }
+      `,
 
   perl: `
-print "AI Code Review Platform\\n";
-`,
+      print "AI Code Review Platform\\n";
+      `,
 
   haskell: `
-main :: IO ()
-main = putStrLn "AI Code Review Platform"
-`,
+      main :: IO ()
+      main = putStrLn "AI Code Review Platform"
+      `,
 
   elixir: `
-IO.puts "AI Code Review Platform"
-`,
+      IO.puts "AI Code Review Platform"
+      `,
 
   r: `
-cat("AI Code Review Platform\\n")
-`,
+      cat("AI Code Review Platform\\n")
+      `,
 
   matlab: `
-disp('AI Code Review Platform');
-`,
+      disp('AI Code Review Platform');
+      `,
 
   bash: `
-echo "AI Code Review Platform"
-`,
+      echo "AI Code Review Platform"
+      `,
 };
 
 const App = () => {
