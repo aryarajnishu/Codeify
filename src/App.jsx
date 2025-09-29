@@ -212,25 +212,25 @@ const App = () => {
     const response = await ai.models.generateContent({
       model: "gemini-2.0-flash",
       contents: `
-You are an expert-level software developer.
-Fix and improve the following ${selectedOption.value} code.
+      You are an expert-level software developer.
+      Fix and improve the following ${selectedOption.value} code.
 
-Return your answer in this markdown format:
+      Return your answer in this markdown format:
 
-## Summary of Changes
-(Briefly explain what was changed and why.)
+      ## Summary of Changes
+      (Briefly explain what was changed and why.)
 
-## Detailed Changes
-- For each change, write a clear sentence describing what was changed, where, and why. For example: "Changed variable name 'x' to 'count' on line 4 for clarity." Do not use a table.
+      ## Detailed Changes
+      - For each change, write a clear sentence describing what was changed, where, and why. For example: "Changed variable name 'x' to 'count' on line 4 for clarity." Do not use a table.
 
-## Fixed Code
-\`\`\`${selectedOption.value}
-(paste the corrected code here)
-\`\`\`
+      ## Fixed Code
+      \`\`\`${selectedOption.value}
+      (paste the corrected code here)
+      \`\`\`
 
-Do not add any extra explanation outside this format.
+      Do not add any extra explanation outside this format.
 
-Code:
+      Code:
 ${code}
     `,
     });
